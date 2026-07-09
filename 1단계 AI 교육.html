@@ -285,6 +285,23 @@ p strong { color: #0f172a; font-weight: 700; }
 .btn-primary { background: #003087; color: #fff; }
 .btn-primary:hover { background: #1a4fa0; }
 
+
+
+/* ── 시작 페이지 ── */
+.intro-panel { max-width:780px; margin:0 auto; padding:72px 48px 80px; }
+.intro-title { font-size:36px; font-weight:900; color:#0f172a; letter-spacing:-0.03em; line-height:1.2; margin-bottom:22px; }
+.intro-lede { font-size:17px; color:#334155; line-height:2.0; font-weight:500; margin-bottom:30px; }
+.intro-lede p { font-size:17px; color:#334155; line-height:2.0; font-weight:500; margin-bottom:0; }
+.intro-stage-list { display:flex; flex-direction:column; gap:10px; margin:26px 0 30px; }
+.intro-stage-item { display:flex; align-items:flex-start; gap:14px; padding:16px 20px; border:1px solid #e2e8f0; border-radius:10px; background:#f8fafc; transition:all 0.15s; }
+.intro-stage-item.current { border-color:#bae6fd; background:#f0f9ff; box-shadow:0 0 0 1px rgba(14,165,233,0.05) inset; }
+.intro-stage-num { width:28px; height:28px; border-radius:50%; background:#94a3b8; color:#fff; font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.intro-stage-item.current .intro-stage-num { background:#003087; }
+.intro-stage-text { font-size:16px; font-weight:700; color:#0f172a; line-height:1.7; }
+.intro-stage-item.current .intro-stage-text { color:#003087; }
+.intro-stage-sub { font-size:14px; font-weight:500; color:#64748b; margin-left:4px; }
+.intro-nav { border-top:1px solid #e2e8f0; padding-top:24px; margin-top:42px; display:flex; justify-content:flex-end; }
+
 footer { background: #f8fafc; color: #94a3b8; text-align: center; font-size: 11px; padding: 20px; letter-spacing: 0.04em; border-top: 1px solid #e2e8f0; }
 </style>
 </head>
@@ -295,19 +312,53 @@ footer { background: #f8fafc; color: #94a3b8; text-align: center; font-size: 11p
   <div class="nav-inner">
     <div class="nav-brand">DSR AI 기초교육 <span>· 1단계</span></div>
     <div class="nav-tabs">
-      <button class="nav-tab active" onclick="goPanel(0)">01 AI란?</button>
-      <button class="nav-tab" onclick="goPanel(1)">02 프롬프트</button>
-      <button class="nav-tab" onclick="goPanel(2)">03 업무 자동화</button>
-      <button class="nav-tab" onclick="goPanel(3)">04 DSR 사례</button>
+      <button class="nav-tab active" onclick="goPanel(0)">시작하기 전</button>
+      <button class="nav-tab" onclick="goPanel(1)">01 AI란?</button>
+      <button class="nav-tab" onclick="goPanel(2)">02 프롬프트</button>
+      <button class="nav-tab" onclick="goPanel(3)">03 업무 자동화</button>
+      <button class="nav-tab" onclick="goPanel(4)">04 DSR 사례</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════ INTRO ═══════ -->
+<div class="panel active" id="panel-0">
+  <div class="intro-panel">
+    <h1 class="intro-title">시작하기 전</h1>
+    <div class="intro-lede">
+      <p>이번 AI 교육은 총 3단계로 구성되어 있습니다.</p>
+    </div>
+
+    <div class="intro-stage-list">
+      <div class="intro-stage-item current">
+        <div class="intro-stage-num">1</div>
+        <div class="intro-stage-text">1단계 AI 리터러시 기초</div>
+      </div>
+      <div class="intro-stage-item">
+        <div class="intro-stage-num">2</div>
+        <div class="intro-stage-text">2단계 개발 기초 개념 <span class="intro-stage-sub">GitHub, Antigravity</span></div>
+      </div>
+      <div class="intro-stage-item">
+        <div class="intro-stage-num">3</div>
+        <div class="intro-stage-text">3단계 실습 <span class="intro-stage-sub">프로그램 개발</span></div>
+      </div>
+    </div>
+
+    <div class="intro-lede">
+      <p>이번 교육에서는 <strong>1단계 AI 리터러시 기초</strong>를 다룹니다. AI가 무엇인지, 어떻게 잘 활용할 수 있는지, 우리 업무에 어떻게 적용할 수 있는지를 살펴봅니다.</p>
+    </div>
+
+    <div class="intro-nav">
+      <button class="btn btn-primary" onclick="goPanel(1)">Chapter 01 시작 →</button>
     </div>
   </div>
 </div>
 
 <!-- ═══════ CHAPTER 1 ═══════ -->
-<div class="panel active" id="panel-0">
+<div class="panel" id="panel-1">
   <div class="hero">
     <div class="hero-inner">
-      <div class="chapter-label">Chapter 01 · 4개 중 1번째</div>
       <h1 style="font-size:clamp(28px,4vw,42px);font-weight:900;color:var(--text,#0f172a);line-height:1.15;letter-spacing:-0.03em;margin-bottom:18px;">AI란 무엇이고,<br>어떻게 답을 만들까요?</h1>
       <p class="hero-lede">AI가 질문을 이해하고 답변을 생성하는 원리를 살펴봅니다.</p>
     </div>
@@ -392,18 +443,17 @@ footer { background: #f8fafc; color: #94a3b8; text-align: center; font-size: 11p
     </div>
 
     <div class="nav-row">
-      <button class="btn btn-ghost" disabled>← 이전</button>
-      <button class="btn btn-primary" onclick="goPanel(1)">다음 챕터 →</button>
+      <button class="btn btn-ghost" onclick="goPanel(0)">← 시작하기 전</button>
+      <button class="btn btn-primary" onclick="goPanel(2)">다음 챕터 →</button>
     </div>
 
   </div>
 </div>
 
 <!-- ═══════ CHAPTER 2 ═══════ -->
-<div class="panel" id="panel-1">
+<div class="panel" id="panel-2">
   <div class="hero">
     <div class="hero-inner">
-      <div class="chapter-label">Chapter 02 · 4개 중 2번째</div>
       <h1>AI를 잘 쓰기 위한<br>프롬프트 작성법</h1>
       <p class="hero-lede">AI에게 어떻게 요청하느냐에 따라 결과가 완전히 달라집니다.</p>
     </div>
@@ -503,18 +553,17 @@ footer { background: #f8fafc; color: #94a3b8; text-align: center; font-size: 11p
       </div>
     </div>
 <div class="nav-row">
-      <button class="btn btn-ghost" onclick="goPanel(0)">← 이전</button>
-      <button class="btn btn-primary" onclick="goPanel(2)">다음 챕터 →</button>
+      <button class="btn btn-ghost" onclick="goPanel(1)">← 이전</button>
+      <button class="btn btn-primary" onclick="goPanel(3)">다음 챕터 →</button>
     </div>
 
   </div>
 </div>
 
 <!-- ═══════ CHAPTER 3 ═══════ -->
-<div class="panel" id="panel-2">
+<div class="panel" id="panel-3">
 <div class="hero">
 <div class="hero-inner">
-<div class="chapter-label">Chapter 03 &middot; 4개 중 3번째</div>
 
 <h1>AI로 내 업무,<br>어디까지 자동화할 수 있을까요?</h1>
 
@@ -616,17 +665,16 @@ footer { background: #f8fafc; color: #94a3b8; text-align: center; font-size: 11p
 </div>
 
     <div class="nav-row">
-      <button class="btn btn-ghost" onclick="goPanel(1)">← 이전</button>
-      <button class="btn btn-primary" onclick="goPanel(3)">다음 챕터 →</button>
+      <button class="btn btn-ghost" onclick="goPanel(2)">← 이전</button>
+      <button class="btn btn-primary" onclick="goPanel(4)">다음 챕터 →</button>
     </div>
   </div>
 </div>
 
 <!-- ═══════ CHAPTER 4 ═══════ -->
-<div class="panel" id="panel-3">
+<div class="panel" id="panel-4">
   <div class="hero">
     <div class="hero-inner">
-      <div class="chapter-label">Chapter 04 · 4개 중 4번째</div>
       <h1>DSR AI 활용 사례</h1>
       <p class="hero-lede">DSR AI 워크샵 기간 중 참가자들이 AI로 만들어낸 결과물입니다. 사례를 클릭해 자세한 내용을 확인해보세요.</p>
     </div>
@@ -700,14 +748,8 @@ footer { background: #f8fafc; color: #94a3b8; text-align: center; font-size: 11p
     </div>
 
     <div class="nav-row">
-      <button class="btn btn-ghost" onclick="goPanel(2)">← 이전</button>
+      <button class="btn btn-ghost" onclick="goPanel(3)">← 이전</button>
       <button class="btn btn-primary" onclick="showComplete()">교육 완료 ✓</button>
-    </div>
-
-    <div id="complete-msg" style="display:none;margin-top:32px;padding:28px 32px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;text-align:center;">
-      <div style="font-size:32px;margin-bottom:12px;">🎉</div>
-      <div style="font-size:18px;font-weight:900;color:#166534;margin-bottom:8px;">1단계 교육을 완료했습니다!</div>
-      <div style="font-size:14px;color:#334155;line-height:1.75;">AI 기초 개념부터 프롬프트 작성법, 업무 자동화까지<br>수고하셨습니다. 배운 내용을 실무에 바로 적용해보세요.</div>
     </div>
 
   </div>
@@ -729,9 +771,12 @@ footer { background: #f8fafc; color: #94a3b8; text-align: center; font-size: 11p
     body.classList.toggle('open', open);
   }
   function showComplete() {
-    const msg = document.getElementById('complete-msg');
-    msg.style.display = 'block';
-    msg.scrollIntoView({behavior:'smooth', block:'center'});
+    alert('1단계 교육을 완료하였습니다.');
+
+    // 브라우저 정책상 사용자가 직접 연 탭은 자동으로 닫히지 않을 수 있습니다.
+    // 자동 닫기가 허용되는 환경에서는 확인을 누른 뒤 창이 닫힙니다.
+    window.open('', '_self');
+    window.close();
   }
   function goPanel(idx) {
     document.querySelectorAll('.panel').forEach((p,i) => p.classList.toggle('active', i===idx));
