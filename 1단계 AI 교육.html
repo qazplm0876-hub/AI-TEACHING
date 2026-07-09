@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSR AI 기초교육 1단계</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style type="text/css">
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Pretendard', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+  background: #ffffff;
+  color: #1f2328;
+  font-size: 15px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── 상단 탭 네비 ── */
+.nav {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0 40px;
+}
+.nav-inner {
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px 0;
+}
+.nav-brand { font-size: 13px; font-weight: 900; color: #003087; white-space: nowrap; }
+.nav-brand span { color: #64748b; font-weight: 600; }
+.nav-tabs { display: flex; overflow-x: auto; }
+.nav-tab {
+  flex-shrink: 0;
+  padding: 14px 16px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748b;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+.nav-tab:hover { color: #1a4fa0; }
+.nav-tab.active { color: #003087; border-bottom-color: #003087; }
+
+/* ── 패널 ── */
+.panel { display: none; }
+.panel.active { display: block; animation: fadeUp 0.2s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ── 본문 공통 ── */
+.wrap {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 40px 64px;
+}
+
+.meta {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0ea5e9;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding-top: 44px;
+  margin-bottom: 14px;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.lede {
+  font-size: 16px;
+  color: #334155;
+  line-height: 1.8;
+  margin-bottom: 36px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #e2e8f0;
+  font-weight: 500;
+}
+
+h2 {
+  font-size: 19px;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin: 44px 0 14px;
+  padding-top: 36px;
+  border-top: 1px solid #e2e8f0;
+}
+
+p {
+  margin-bottom: 14px;
+  color: #334155;
+  line-height: 1.9;
+  font-size: 15px;
+}
+p:last-child { margin-bottom: 0; }
+p strong { color: #0f172a; font-weight: 700; }
+
+/* ── 인용문 ── */
+.quote {
+  margin: 20px 0;
+  padding: 16px 20px 16px 24px;
+  border-left: 3px solid #003087;
+  background: #f8fafc;
+  border-radius: 0 8px 8px 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.55;
+}
+
+/* ── 이전 디자인 (챕터 1용) ── */
+:root { --blue:#003087; --blue-mid:#1a4fa0; --blue-sky:#0ea5e9; --blue-light:#e0f2fe; --blue-lighter:#f0f9ff; --blue-line:#bae6fd; --surface:#f8fafc; --text:#0f172a; --text-mid:#334155; --text-sub:#64748b; --border:#e2e8f0; }
+.hero { padding:64px 48px 52px; border-bottom:1px solid var(--border); }
+.hero-inner { max-width:780px; margin:0 auto; }
+.chapter-label { font-size:12px; font-weight:700; color:var(--blue-sky); letter-spacing:0.18em; text-transform:uppercase; margin-bottom:20px; }
+.hero h1 { font-size: clamp(28px, 4vw, 42px); font-weight: 900; color: #0f172a; line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 18px; }
+.hero-lede { font-size:16px; color:var(--text-mid); line-height:1.8; max-width:620px; font-weight:500; }
+.content { max-width:780px; margin:0 auto; padding:52px 48px 72px; }
+.section { margin-bottom:60px; }
+.section:last-of-type { margin-bottom:0; }
+.step-row { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+.step-label { font-size:12px; font-weight:700; color:var(--blue-sky); letter-spacing:0.14em; white-space:nowrap; }
+.step-line { flex:1; height:1px; background:var(--border); }
+.section-title { font-size:22px; font-weight:900; color:var(--text); letter-spacing:-0.025em; line-height:1.3; margin-bottom:18px; }
+.body-text { font-size:15.5px; color:var(--text-mid); line-height:1.9; font-weight:500; }
+.body-text p { margin-bottom:14px; }
+.body-text p:last-child { margin-bottom:0; }
+.body-text strong { color:var(--text); font-weight:700; }
+.quote { margin:24px 0; padding:18px 22px 18px 26px; border-left:3px solid var(--blue); background:var(--surface); border-radius:0 8px 8px 0; }
+.quote-text { font-size:17px; font-weight:700; color:var(--text); line-height:1.55; letter-spacing:-0.015em; }
+.reveal-hint { margin:16px 0 10px; font-size:13px; font-weight:600; color:var(--text-sub); display:flex; align-items:center; gap:8px; }
+.reveal-hint::before { content:''; width:6px; height:6px; background:var(--blue-sky); border-radius:50%; flex-shrink:0; }
+.reveal-stack { display:flex; flex-direction:column; gap:8px; }
+.rev-box { border:1px solid var(--border); border-radius:10px; overflow:hidden; transition:border-color 0.2s; }
+.rev-box.open { border-color:var(--blue-sky); }
+.rev-trigger { width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 22px; background:#fff; border:none; cursor:pointer; font-family:inherit; text-align:left; transition:background 0.15s; }
+.rev-trigger:hover { background:var(--blue-lighter); }
+.rev-box.open .rev-trigger { background:var(--blue-lighter); border-bottom:1px solid var(--blue-line); }
+.rev-trigger-text { font-size:15px; font-weight:700; color:var(--text); }
+.rev-arrow { font-size:13px; color:var(--text-sub); transition:transform 0.25s; flex-shrink:0; }
+.rev-box.open .rev-arrow { transform:rotate(180deg); color:var(--blue); }
+.rev-body { max-height:0; overflow:hidden; transition:max-height 0.35s ease; }
+.rev-body.open { max-height:500px; }
+.rev-body-inner { padding:20px 24px 24px; font-size:15px; color:var(--text-mid); line-height:1.85; }
+.rev-body-inner p { margin-bottom:12px; }
+.rev-body-inner p:last-child { margin-bottom:0; }
+.rev-body-inner strong { color:var(--blue-mid); font-weight:700; }
+
+/* ── 항목 블록 (챕터 1) ── */
+.item-block {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+.item-header {
+  padding: 13px 20px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+.item-body {
+  padding: 16px 20px;
+  font-size: 14.5px;
+  color: #334155;
+  line-height: 1.85;
+}
+.item-body p { margin-bottom: 10px; font-size: 14.5px; }
+.item-body p:last-child { margin-bottom: 0; }
+.item-body strong { color: #1a4fa0; font-weight: 700; }
+
+/* ── 셰프 비유 (챕터 2) ── */
+.chef-wrap { margin: 20px 0; display: flex; flex-direction: column; gap: 10px; }
+.chef-box { padding: 16px 20px; border-radius: 8px; border: 1px solid #e2e8f0; }
+.chef-box.bad { background: #fff1f2; border-color: #fecdd3; }
+.chef-box.good { background: #f0fdf4; border-color: #bbf7d0; }
+.chef-label { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+.chef-box.bad .chef-label { color: #9f1239; }
+.chef-box.good .chef-label { color: #166534; }
+.chef-text { font-size: 14px; color: #334155; line-height: 1.75; }
+
+/* ── 3대 핵심 요소 요약 (챕터 2) ── */
+.trinity { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; padding: 24px 28px; margin: 24px 0; }
+.trinity-title { font-size: 12px; font-weight: 700; color: #0ea5e9; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+.trinity-row { display: flex; gap: 12px; }
+.trinity-item { flex: 1; text-align: center; padding: 14px 10px; background: #fff; border: 1px solid #bae6fd; border-radius: 8px; }
+.trinity-wh { font-size: 20px; font-weight: 900; color: #003087; margin-bottom: 5px; }
+.trinity-name { font-size: 13px; font-weight: 700; color: #1f2328; margin-bottom: 3px; }
+.trinity-desc { font-size: 11px; color: #64748b; line-height: 1.5; }
+
+/* ── 핵심 요소 카드 (챕터 2) ── */
+.core-card { border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; margin: 12px 0; }
+.core-header { padding: 14px 20px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 12px; background: #f8fafc; }
+.core-tag { font-size: 12px; font-weight: 700; color: #fff; padding: 3px 12px; border-radius: 100px; white-space: nowrap; }
+.core-tag.who { background: #003087; }
+.core-tag.how { background: #1a4fa0; }
+.core-tag.what { background: #0ea5e9; }
+.core-title { font-size: 15px; font-weight: 900; color: #1f2328; }
+.core-body { padding: 16px 20px; font-size: 14.5px; color: #334155; line-height: 1.85; }
+.core-body p { margin-bottom: 10px; font-size: 14.5px; }
+.core-body p:last-child { margin-bottom: 0; }
+.core-body strong { color: #0f172a; font-weight: 700; }
+.core-ex { margin-top: 14px; border-top: 1px dashed #e2e8f0; padding-top: 14px; }
+.core-ex-label { font-size: 11px; font-weight: 700; color: #0ea5e9; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+.core-ex-bad { font-size: 13.5px; color: #9f1239; margin-bottom: 8px; line-height: 1.7; }
+.core-ex-good { font-size: 13.5px; color: #166534; line-height: 1.75; }
+
+/* ── 사례 카드 (챕터 4) ── */
+.case-stack { display:flex; flex-direction:column; gap:8px; margin-top:20px; }
+.case-box { border:1px solid var(--border,#e2e8f0); border-radius:10px; overflow:hidden; transition:border-color 0.2s; }
+.case-box.open { border-color:var(--blue-sky,#0ea5e9); }
+.case-trigger { width:100%; display:flex; align-items:center; gap:14px; padding:18px 22px; background:#fff; border:none; cursor:pointer; font-family:inherit; text-align:left; transition:background 0.15s; }
+.case-trigger:hover { background:var(--blue-lighter,#f0f9ff); }
+.case-box.open .case-trigger { background:var(--blue-lighter,#f0f9ff); border-bottom:1px solid var(--blue-line,#bae6fd); }
+.case-ci { font-size:20px; flex-shrink:0; }
+.case-info { flex:1; }
+.case-title { font-size:15px; font-weight:700; color:var(--text,#0f172a); }
+.case-sub { font-size:13px; color:var(--text-sub,#64748b); margin-top:2px; }
+.case-arr { font-size:13px; color:var(--text-sub,#64748b); transition:transform 0.25s; flex-shrink:0; }
+.case-box.open .case-arr { transform:rotate(180deg); color:var(--blue,#003087); }
+.case-body { max-height:0; overflow:hidden; transition:max-height 0.35s ease; }
+.case-body.open { max-height:400px; }
+.case-body-inner { padding:16px 22px 20px; display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+.case-col { padding:12px 14px; background:var(--surface,#f8fafc); border:1px solid var(--border,#e2e8f0); border-radius:8px; }
+.case-col-label { font-size:11px; font-weight:700; color:var(--blue-sky,#0ea5e9); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:6px; }
+.case-col-text { font-size:13.5px; color:var(--text-mid,#334155); line-height:1.65; }
+
+/* ── 사례 블록 (챕터 3) ── */
+.case-block { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 20px 24px; margin: 14px 0; }
+.case-block-label { font-size: 11px; font-weight: 700; color: #0ea5e9; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+.case-block-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+.case-block-body { font-size: 14.5px; color: #334155; line-height: 1.8; }
+
+/* ── KEY MESSAGE ── */
+.key { background: #003087; color: #fff; padding: 24px 28px; border-radius: 10px; margin-top: 40px; }
+.key-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 10px; }
+.key-text { font-size: 17px; font-weight: 700; line-height: 1.65; color: #fff; }
+.key-msg { margin-top:52px; padding:32px 36px; background:var(--blue,#003087); border-radius:14px; color:#fff; position:relative; overflow:hidden; }
+.key-msg::after { content:'KEY MESSAGE'; position:absolute; right:28px; top:22px; font-size:10px; font-weight:700; letter-spacing:0.2em; color:rgba(255,255,255,0.2); }
+.key-msg-label { font-size:11px; font-weight:700; color:rgba(255,255,255,0.5); letter-spacing:0.16em; text-transform:uppercase; margin-bottom:12px; }
+.key-msg-text { font-size:18px; font-weight:700; color:#fff; line-height:1.55; letter-spacing:-0.02em; }
+
+/* ── 하단 네비 ── */
+.nav-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid #e2e8f0;
+}
+.btn {
+  padding: 11px 24px;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-ghost { background: transparent; color: #64748b; border: 1px solid #e2e8f0; }
+.btn-ghost:hover { border-color: #94a3b8; color: #0f172a; }
+.btn-ghost:disabled { opacity: 0.35; cursor: default; }
+.btn-primary { background: #003087; color: #fff; }
+.btn-primary:hover { background: #1a4fa0; }
+
+
+
+/* ── 시작 페이지 ── */
+.intro-panel { max-width:780px; margin:0 auto; padding:72px 48px 80px; }
+.intro-title { font-size:36px; font-weight:900; color:#0f172a; letter-spacing:-0.03em; line-height:1.2; margin-bottom:22px; }
+.intro-lede { font-size:17px; color:#334155; line-height:2.0; font-weight:500; margin-bottom:30px; }
+.intro-lede p { font-size:17px; color:#334155; line-height:2.0; font-weight:500; margin-bottom:0; }
+.intro-stage-list { display:flex; flex-direction:column; gap:10px; margin:26px 0 30px; }
+.intro-stage-item { display:flex; align-items:flex-start; gap:14px; padding:16px 20px; border:1px solid #e2e8f0; border-radius:10px; background:#f8fafc; transition:all 0.15s; }
+.intro-stage-item.current { border-color:#bae6fd; background:#f0f9ff; box-shadow:0 0 0 1px rgba(14,165,233,0.05) inset; }
+.intro-stage-num { width:28px; height:28px; border-radius:50%; background:#94a3b8; color:#fff; font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.intro-stage-item.current .intro-stage-num { background:#003087; }
+.intro-stage-text { font-size:16px; font-weight:700; color:#0f172a; line-height:1.7; }
+.intro-stage-item.current .intro-stage-text { color:#003087; }
+.intro-stage-sub { font-size:14px; font-weight:500; color:#64748b; margin-left:4px; }
+.intro-nav { border-top:1px solid #e2e8f0; padding-top:24px; margin-top:42px; display:flex; justify-content:flex-end; }
+
+footer { background: #f8fafc; color: #94a3b8; text-align: center; font-size: 11px; padding: 20px; letter-spacing: 0.04em; border-top: 1px solid #e2e8f0; }
+</style>
+</head>
+<body>
+
+<!-- 탭 네비 -->
+<div class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">DSR AI 기초교육 <span>· 1단계</span></div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="goPanel(0)">시작하기 전</button>
+      <button class="nav-tab" onclick="goPanel(1)">01 AI란?</button>
+      <button class="nav-tab" onclick="goPanel(2)">02 프롬프트</button>
+      <button class="nav-tab" onclick="goPanel(3)">03 업무 자동화</button>
+      <button class="nav-tab" onclick="goPanel(4)">04 DSR 사례</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════ INTRO ═══════ -->
+<div class="panel active" id="panel-0">
+  <div class="intro-panel">
+    <h1 class="intro-title">시작하기 전</h1>
+    <div class="intro-lede">
+      <p>이번 AI 교육은 총 3단계로 구성되어 있습니다.</p>
+    </div>
+
+    <div class="intro-stage-list">
+      <div class="intro-stage-item current">
+        <div class="intro-stage-num">1</div>
+        <div class="intro-stage-text">1단계 AI 리터러시 기초</div>
+      </div>
+      <div class="intro-stage-item">
+        <div class="intro-stage-num">2</div>
+        <div class="intro-stage-text">2단계 개발 기초 개념 <span class="intro-stage-sub">GitHub, Antigravity</span></div>
+      </div>
+      <div class="intro-stage-item">
+        <div class="intro-stage-num">3</div>
+        <div class="intro-stage-text">3단계 실습 <span class="intro-stage-sub">프로그램 개발</span></div>
+      </div>
+    </div>
+
+    <div class="intro-lede">
+      <p>이번 교육에서는 <strong>1단계 AI 리터러시 기초</strong>를 다룹니다. AI가 무엇인지, 어떻게 잘 활용할 수 있는지, 우리 업무에 어떻게 적용할 수 있는지를 살펴봅니다.</p>
+    </div>
+
+    <div class="intro-nav">
+      <button class="btn btn-primary" onclick="goPanel(1)">Chapter 01 시작 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ CHAPTER 1 ═══════ -->
+<div class="panel" id="panel-1">
+  <div class="hero">
+    <div class="hero-inner">
+      <h1 style="font-size:clamp(28px,4vw,42px);font-weight:900;color:var(--text,#0f172a);line-height:1.15;letter-spacing:-0.03em;margin-bottom:18px;">AI란 무엇이고,<br>어떻게 답을 만들까요?</h1>
+      <p class="hero-lede">AI가 질문을 이해하고 답변을 생성하는 원리를 살펴봅니다.</p>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="section">
+      <div class="step-row"><div class="step-label">STEP 01</div><div class="step-line"></div></div>
+      <div class="section-title">AI란?</div>
+      <div class="quote">
+        <div class="quote-text">"AI는 인터넷에 있는 수천억 개의 글을 읽고 자란, 말 잘 하는 신입사원 같은 것입니다."</div>
+      </div>
+      <div class="body-text">
+        <p>신입사원이 책을 아무리 많이 읽었다고 해서 <strong>우리 회사 사정을 다 아는 건 아닙니다.</strong> 방대한 지식을 갖고 있지만, 우리 업무 맥락은 우리가 알려줘야 합니다.</p>
+        <p>다음 챕터에서 다룰 <strong>프롬프트 작성법</strong>도 결국 이 신입사원에게 "우리 상황과 원하는 결과를 어떻게 잘 전달할까"에 대한 이야기입니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="step-row"><div class="step-label">STEP 02</div><div class="step-line"></div></div>
+      <div class="section-title">AI는 어떻게 답을 만들까요?</div>
+      <div class="reveal-hint">각 항목을 클릭하면 자세한 설명이 펼쳐집니다</div>
+      <div class="reveal-stack">
+        <div class="rev-box" id="r1-0">
+          <button class="rev-trigger" onclick="toggleRev('r1',0)">
+            <span class="rev-trigger-text">01. 많은 예시를 보고 패턴을 학습합니다</span>
+            <span class="rev-arrow">▾</span>
+          </button>
+          <div class="rev-body" id="r1-body-0">
+            <div class="rev-body-inner">
+              <p>AI는 많은 예시를 통해 단어와 문장의 흐름, 표현 방식, 답변 구조의 패턴을 학습합니다.</p>
+              <p>이후 사용자의 질문이 들어오면, 학습한 패턴을 바탕으로 자연스러운 답변을 만들어냅니다.</p>
+            </div>
+          </div>
+        </div>
+        <div class="rev-box" id="r1-1">
+          <button class="rev-trigger" onclick="toggleRev('r1',1)">
+            <span class="rev-trigger-text">02. 질문과 맥락을 보고 답변을 만듭니다</span>
+            <span class="rev-arrow">▾</span>
+          </button>
+          <div class="rev-body" id="r1-body-1">
+            <div class="rev-body-inner">
+              <p>AI는 사용자가 입력한 질문, 앞뒤 대화, 제공된 자료를 바탕으로 답변을 만듭니다. 같은 질문이라도 <strong>업무 배경, 요청 방식, 원하는 결과 형식</strong>에 따라 달라질 수 있습니다.</p>
+              <p>예를 들어 "메일 다듬어줘"라고만 하면 일반적인 문장으로 고쳐주지만, "기존에 사용하던 메일 양식을 참고해서 다듬어줘"라고 하면 기존 업무 방식에 더 맞는 결과물이 나옵니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="step-row"><div class="step-label">STEP 03</div><div class="step-line"></div></div>
+      <div class="section-title">AI를 사용할 때 주의할 점</div>
+      <div class="reveal-hint">각 항목을 클릭하면 자세한 설명이 펼쳐집니다</div>
+      <div class="reveal-stack">
+        <div class="rev-box" id="r1-2">
+          <button class="rev-trigger" onclick="toggleRev('r1',2)">
+            <span class="rev-trigger-text">01. AI는 그럴듯하게 틀릴 수 있습니다 — 환각(Hallucination)</span>
+            <span class="rev-arrow">▾</span>
+          </button>
+          <div class="rev-body" id="r1-body-2">
+            <div class="rev-body-inner">
+              <p>AI는 답을 만들 때 <strong>"이게 맞는지 모르겠다"고 멈추지 않습니다.</strong> 그럴듯하게 들리는 문장을 자연스럽게 이어 붙이기 때문에, 틀린 정보도 정확한 것처럼 표현될 수 있습니다.</p>
+              <p>특히 수치, 날짜, 법령, 규정, 회사 내부 기준처럼 정확도가 중요한 내용은 반드시 원문이나 출처를 확인해야 하며, <strong>최종 검토는 항상 사람이 해야 합니다.</strong></p>
+            </div>
+          </div>
+        </div>
+        <div class="rev-box" id="r1-3">
+          <button class="rev-trigger" onclick="toggleRev('r1',3)">
+            <span class="rev-trigger-text">02. AI가 이전 대화를 잊어버리는 이유 — 컨텍스트 윈도우</span>
+            <span class="rev-arrow">▾</span>
+          </button>
+          <div class="rev-body" id="r1-body-3">
+            <div class="rev-body-inner">
+              <p>AI와 대화를 오래 하다 보면, 앞에서 말한 내용을 AI가 까먹는 경험을 하게 됩니다. AI가 <strong>기억할 수 있는 용량(컨텍스트 윈도우)에 한계</strong>가 있기 때문입니다.</p>
+              <p>AI의 기억을 <strong>작업용 책상</strong>이라고 생각해보세요. 책상 위에 올릴 수 있는 자료의 양이 정해져 있어서, 새로운 대화가 쌓일수록 가장 오래된 내용부터 밀려나 사라집니다.</p>
+              <p>그래서 중요한 맥락은 대화 중간에도 다시 알려주는 것이 좋습니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goPanel(0)">← 시작하기 전</button>
+      <button class="btn btn-primary" onclick="goPanel(2)">다음 챕터 →</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════ CHAPTER 2 ═══════ -->
+<div class="panel" id="panel-2">
+  <div class="hero">
+    <div class="hero-inner">
+      <h1>AI를 잘 쓰기 위한<br>프롬프트 작성법</h1>
+      <p class="hero-lede">AI에게 어떻게 요청하느냐에 따라 결과가 완전히 달라집니다.</p>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="section">
+      <div class="step-row"><div class="step-label">STEP 01</div><div class="step-line"></div></div>
+      <div class="section-title">프롬프트란 무엇인가</div>
+      <div class="body-text">
+        <p><strong>프롬프트(Prompt)</strong>란 AI에게 전달하는 질문 또는 요청 문장입니다. AI가 우리의 의도를 가장 잘 이해할 수 있도록 설계하는 <strong>소통의 설계도</strong>라고 할 수 있습니다.</p>
+        <p>핵심 원리는 간단합니다. <strong>"잘못된 입력은 잘못된 결과를 낳는다"</strong> — AI의 성능은 우리가 어떻게 물어보느냐에 달려 있습니다.</p>
+        <p>유능한 셰프에게 요리를 주문하는 상황을 생각해보세요.</p>
+      </div>
+      <div class="chef-wrap">
+        <div class="chef-box bad">
+          <div class="chef-label">😥 나쁜 주문</div>
+          <div class="chef-text">"셰프님, 맛있는 거 아무거나 하나 해주세요."<br>→ 셰프는 당신이 어떤 재료를 좋아하는지, 매운 것은 잘 먹는지 전혀 알 수 없습니다. 결국 당신의 입맛에 맞지 않을 요리가 나올 것입니다.</div>
+        </div>
+        <div class="chef-box good">
+          <div class="chef-label">👍 좋은 주문</div>
+          <div class="chef-text">"셰프님, 해산물을 좋아하는데 너무 맵지 않았으면 해요. 토마토소스 베이스 파스타 1인분 만들어주실 수 있나요?"<br>→ 선호 재료(맥락), 제외 조건(제약), 원하는 종류(형식), 양(구체성)까지 담겨 있어 셰프가 정확한 요리를 만들 수 있습니다.</div>
+        </div>
+      </div>
+      <div class="body-text">
+        <p>좋은 프롬프트는 AI가 최고의 실력을 발휘할 수 있도록 <strong>정확한 레시피를 제공하는 것</strong>과 같습니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="step-row"><div class="step-label">STEP 02</div><div class="step-line"></div></div>
+      <div class="section-title">AI를 잘 쓰는 3대 핵심 요소</div>
+      <div class="body-text">
+        <p>프롬프트를 잘 설계하는 방법은 세 가지 핵심 요소로 정리됩니다. 각각 독립적으로도 강력하지만, 함께 사용될 때 완벽한 시너지를 냅니다.</p>
+      </div>
+      <div class="trinity">
+        <div class="trinity-title">프롬프트 설계의 3대 핵심 요소</div>
+        <div class="trinity-row">
+          <div class="trinity-item">
+            <div class="trinity-wh">WHO</div>
+            <div class="trinity-name">페르소나</div>
+            <div class="trinity-desc">AI의 정체성</div>
+          </div>
+          <div class="trinity-item">
+            <div class="trinity-wh">HOW</div>
+            <div class="trinity-name">작업 원칙</div>
+            <div class="trinity-desc">AI의 사고방식</div>
+          </div>
+          <div class="trinity-item">
+            <div class="trinity-wh">WHAT</div>
+            <div class="trinity-name">결과물 예시</div>
+            <div class="trinity-desc">AI가 생성하는 결과물</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-hint">각 항목을 클릭하면 자세한 설명이 펼쳐집니다</div>
+      <div class="reveal-stack">
+        <div class="rev-box" id="r2-0">
+          <button class="rev-trigger" onclick="toggleRev('r2',0)">
+            <span class="rev-trigger-text">WHO — 페르소나 · AI에게 정체성을 부여하세요</span>
+            <span class="rev-arrow">▾</span>
+          </button>
+          <div class="rev-body" id="r2-body-0">
+            <div class="rev-body-inner">
+              <p>AI에게 <strong>특정 역할과 정체성</strong>을 부여하면 답변의 톤, 전문성, 일관성이 달라집니다. "모든 것을 아는 막연한 AI"를 "특정 분야의 전문가"로 변신시키는 과정입니다.</p>
+              <p style="color:#9f1239;margin-top:10px;">❌ "ESG 규제 현황이랑 대응 방안 알려줘."<br>→ 일반적이고 피상적인 답변이 나올 가능성이 높습니다.</p>
+              <p style="color:#166534;">✅ "너는 McKinsey 출신 ESG 전문 컨설턴트야. 국내 제조업 기준으로 최근 ESG 규제 현황, 실질적인 대응 방안, 새롭게 생긴 법안 동향을 정리해줘."<br>→ 훨씬 구체적이고 실무에 가까운 답변이 나옵니다.</p>
+            </div>
+          </div>
+        </div>
+        <div class="rev-box" id="r2-1">
+          <button class="rev-trigger" onclick="toggleRev('r2',1)">
+            <span class="rev-trigger-text">HOW — 작업 원칙 · AI에게 사고 순서를 알려주세요</span>
+            <span class="rev-arrow">▾</span>
+          </button>
+          <div class="rev-body" id="r2-body-1">
+            <div class="rev-body-inner">
+              <p>AI에게 최종 결과만 요구하는 것이 아니라, <strong>어떤 순서로 생각해야 하는지 절차</strong>를 알려주는 것입니다. 복잡한 요청일수록 단계별 지시가 훨씬 정확한 결과를 만들어냅니다.</p>
+              <p style="color:#9f1239;margin-top:10px;">❌ "신제품 홍보 이메일 작성해줘."<br>→ 일반적인 이메일이 나올 가능성이 높습니다.</p>
+              <p style="color:#166534;">✅ "반드시 아래 순서대로 진행해줘.<br>1단계: 타겟 고객의 주요 관심사 3가지를 정의한다.<br>2단계: 제품 장점과 관심사를 연결할 핵심 메시지를 선정한다.<br>3단계: 핵심 메시지를 바탕으로 이메일 제목 5개를 제안한다.<br>4단계: 가장 효과적인 제목으로 본문 초안을 작성한다."<br>→ 타겟 분석부터 시작한 훨씬 전략적인 이메일이 나옵니다.</p>
+            </div>
+          </div>
+        </div>
+        <div class="rev-box" id="r2-2">
+          <button class="rev-trigger" onclick="toggleRev('r2',2)">
+            <span class="rev-trigger-text">WHAT — 결과물 예시 · 원하는 형태를 직접 보여주세요</span>
+            <span class="rev-arrow">▾</span>
+          </button>
+          <div class="rev-body" id="r2-body-2">
+            <div class="rev-body-inner">
+              <p>원하는 결과물이 어떤 모습이어야 하는지 <strong>직접 예시를 보여주면</strong>, AI는 그 구조와 스타일을 그대로 모방합니다. 말로 설명하는 것보다 보여주는 것이 훨씬 효과적입니다.</p>
+              <p style="color:#9f1239;margin-top:10px;">❌ "이번 주 업무 내용 정리해줘."<br>→ 형식이 매번 달라지고 원하는 구조가 안 나올 수 있습니다.</p>
+              <p style="color:#166534;">✅ "아래 형식으로 이번 주 업무를 정리해줘.<br><br>[완료] OOO 작업 완료 (담당: 홍길동)<br>[진행중] OOO 협의 중 (기한: 7/25)<br>[이슈] OOO 지연 발생 → 대응 방안: OOO<br><br>→ 매주 같은 형식으로 깔끔하게 정리됩니다.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<div class="nav-row">
+      <button class="btn btn-ghost" onclick="goPanel(1)">← 이전</button>
+      <button class="btn btn-primary" onclick="goPanel(3)">다음 챕터 →</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════ CHAPTER 3 ═══════ -->
+<div class="panel" id="panel-3">
+<div class="hero">
+<div class="hero-inner">
+
+<h1>AI로 내 업무,<br>어디까지 자동화할 수 있을까요?</h1>
+
+<p class="hero-lede">AI는 질문에 답하는 것을 넘어, 반복되는 업무의 일부를 자동화하는 데 활용할 수 있습니다. 다만 모든 업무가 자동화에 적합한 것은 아닙니다.</p>
+</div>
+</div>
+
+<div class="content">
+<div class="section">
+<div class="step-row">
+<div class="step-label">STEP 01</div>
+
+<div class="step-line">&nbsp;</div>
+</div>
+
+<div class="section-title">업무 자동화란 무엇인가</div>
+
+<div class="body-text">
+<p>업무 자동화란 <strong>사람이 반복해서 처리하던 업무의 일부를 AI가 대신 수행하도록 만드는 것</strong>입니다. 처음부터 거대한 시스템을 만드는 것이 아니라, 매번 사람이 확인하고 옮기고 정리하던 과정을 줄이는 것부터 시작합니다.</p>
+
+<p>아래 두 가지 예시를 보면 어떤 업무가 자동화에 적합한지 감이 잡힙니다.</p>
+</div>
+
+<div class="case-block">
+<div class="case-block-label">사례 A</div>
+
+<div class="case-block-title">PDF 청구서에서 금액 추출하기</div>
+
+<div class="case-block-body">매월 같은 양식으로 들어오는 PDF 청구서에서 업체명, 사용기간, 청구금액을 확인해 엑셀에 옮기는 업무가 있다면, AI의 문자인식 기능을 활용해 필요한 항목만 자동으로 추출하고 정리하도록 만들 수 있습니다.</div>
+</div>
+
+<div class="case-block">
+<div class="case-block-label">사례 B</div>
+
+<div class="case-block-title">엑셀 보고서 자동 작성</div>
+
+<div class="case-block-body">매월 같은 양식으로 작성해야 하는 실적 보고서가 있다면, 원본 데이터를 정해진 기준에 따라 정리하고 같은 형식의 보고서로 출력하는 과정을 자동화할 수 있습니다.</div>
+</div>
+
+<div class="body-text">
+<p>두 사례의 공통점은 <strong>들어오는 자료의 형식이 일정하고, 처리 기준이 명확하며, 결과물의 형태가 정해져 있다</strong>는 것입니다.</p>
+</div>
+</div>
+
+<div class="section">
+<div class="step-row">
+<div class="step-label">STEP 02</div>
+
+<div class="step-line">&nbsp;</div>
+</div>
+
+<div class="section-title">내 업무는 자동화할 수 있을까요?</div>
+
+<div class="body-text">
+<p>아래 네 가지 질문을 스스로에게 던져보세요. 대부분 &quot;그렇다&quot;고 답할 수 있다면 자동화를 검토해볼 만한 업무입니다.</p>
+</div>
+
+<div class="reveal-hint">각 질문을 클릭하면 자세한 설명이 펼쳐집니다</div>
+
+<div class="reveal-stack">
+<div class="rev-box" id="r3-0"><button class="rev-trigger" onclick="toggleRev('r3',0)"><span class="rev-trigger-text">Q1. 이 업무는 매번 같은 형식의 자료가 들어오는가?</span> <span class="rev-arrow">▾</span></button>
+
+<div class="rev-body" id="r3-body-0">
+<div class="rev-body-inner">
+<p>자동화는 입력 자료의 형식이 일정할수록 수월합니다. 매번 다른 형태의 자료보다, 같은 양식으로 반복해서 들어오는 자료가 자동화에 적합합니다.</p>
+
+<p><strong>적합한 예:</strong> 매월 같은 양식의 PDF 청구서, 동일한 구조의 엑셀 실적표, 정해진 양식의 교육보고서</p>
+</div>
+</div>
+</div>
+
+<div class="rev-box" id="r3-1"><button class="rev-trigger" onclick="toggleRev('r3',1)"><span class="rev-trigger-text">Q2. 확인하거나 추출해야 할 항목이 정해져 있는가?</span> <span class="rev-arrow">▾</span></button>
+
+<div class="rev-body" id="r3-body-1">
+<div class="rev-body-inner">
+<p>&quot;무엇을 확인해야 하는지&quot;가 명확해야 합니다. 청구서라면 거래처명&middot;청구금액&middot;납부기한, 보고서라면 매출&middot;증감률&middot;달성률처럼 추출 항목이 정해져 있을수록 자동화하기 쉽습니다.</p>
+</div>
+</div>
+</div>
+
+<div class="rev-box" id="r3-2"><button class="rev-trigger" onclick="toggleRev('r3',2)"><span class="rev-trigger-text">Q3. 처리 기준을 말이나 글로 설명할 수 있는가?</span> <span class="rev-arrow">▾</span></button>
+
+<div class="rev-body" id="r3-body-2">
+<div class="rev-body-inner">
+<p>&quot;이럴 때는 이렇게 처리한다&quot;는 규칙이 있으면 AI에게 그 기준을 전달할 수 있습니다. 반대로 매번 담당자의 경험과 상황 판단에 따라 처리 방식이 달라지는 업무는 완전 자동화보다 AI 보조가 더 적합합니다.</p>
+</div>
+</div>
+</div>
+
+<div class="rev-box" id="r3-3"><button class="rev-trigger" onclick="toggleRev('r3',3)"><span class="rev-trigger-text">Q4. 결과물이 늘 비슷한 형식으로 나오는가?</span> <span class="rev-arrow">▾</span></button>
+
+<div class="rev-body" id="r3-body-3">
+<div class="rev-body-inner">
+<p>결과물의 형태가 일정할수록 자동화 효과가 큽니다. 매번 같은 양식의 표, 보고서, 요약문을 만들어야 한다면 AI가 반복 작업을 대신하기 좋습니다.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goPanel(2)">← 이전</button>
+      <button class="btn btn-primary" onclick="goPanel(4)">다음 챕터 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ CHAPTER 4 ═══════ -->
+<div class="panel" id="panel-4">
+  <div class="hero">
+    <div class="hero-inner">
+      <h1>DSR AI 활용 사례</h1>
+      <p class="hero-lede">DSR AI 워크샵 기간 중 참가자들이 AI로 만들어낸 결과물입니다. 사례를 클릭해 자세한 내용을 확인해보세요.</p>
+    </div>
+  </div>
+  <div class="content">
+
+    <div class="section">
+      <div class="step-row"><div class="step-label">STEP 01</div><div class="step-line"></div></div>
+      <div class="section-title">실제로 이런 것들을 만들었습니다</div>
+      <div class="body-text">
+        <p>아래 사례들은 앞서 챕터 3에서 다룬 자동화 조건 — <strong>들어오는 자료의 형식이 일정하고, 처리 기준이 명확하며, 결과물의 형태가 정해져 있는 업무</strong> — 에 해당하는 것들입니다. 거창한 개발이 아닌, 실무의 불편함을 해결하는 것에서 시작했습니다.</p>
+      </div>
+      <div class="case-stack">
+        <div class="case-box" id="cs-0">
+          <button class="case-trigger" onclick="toggleCase(0)">
+            <div class="case-ci">📰</div>
+            <div class="case-info"><div class="case-title">뉴스 자동 브리핑</div><div class="case-sub">매일 아침 포털 검색 30분~1시간 → 자동 수집</div></div>
+            <div class="case-arr">▾</div>
+          </button>
+          <div class="case-body" id="cs-body-0">
+            <div class="case-body-inner">
+              <div class="case-col"><div class="case-col-label">기존 업무</div><div class="case-col-text">매일 아침 포털에서 30분~1시간씩 직접 뉴스 검색·정리</div></div>
+              <div class="case-col"><div class="case-col-label">AI 적용</div><div class="case-col-text">자동차 스프링·가전·원자재·경쟁사, LME 금속가격·환율 데이터 수집 및 HTML 보고서 생성</div></div>
+              <div class="case-col"><div class="case-col-label">결과</div><div class="case-col-text">매일 오전 자동 실행<br>브라우저에서 바로 열람</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="case-box" id="cs-1">
+          <button class="case-trigger" onclick="toggleCase(1)">
+            <div class="case-ci">🔍</div>
+            <div class="case-info"><div class="case-title">AI 기술 동향 모니터링</div><div class="case-sub">관련 분야 동향·경쟁사 소식 자동 수집</div></div>
+            <div class="case-arr">▾</div>
+          </button>
+          <div class="case-body" id="cs-body-1">
+            <div class="case-body-inner">
+              <div class="case-col"><div class="case-col-label">기존 업무</div><div class="case-col-text">AI 기술 동향·경쟁사 소식·소재 트렌드를 직접 검색하고 정리</div></div>
+              <div class="case-col"><div class="case-col-label">AI 적용</div><div class="case-col-text">관심 키워드 설정 → 보고서 자동 생성 → 품질 검증 후 수정</div></div>
+              <div class="case-col"><div class="case-col-label">결과</div><div class="case-col-text">날짜별 HTML 리포트 저장<br>기준 미달 정보 자동 필터링</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="case-box" id="cs-2">
+          <button class="case-trigger" onclick="toggleCase(2)">
+            <div class="case-ci">⚙️</div>
+            <div class="case-info"><div class="case-title">반복 업무 자동화</div><div class="case-sub">매일 반복하던 엑셀 작업을 AI가 대신 처리</div></div>
+            <div class="case-arr">▾</div>
+          </button>
+          <div class="case-body" id="cs-body-2">
+            <div class="case-body-inner">
+              <div class="case-col"><div class="case-col-label">기존 업무</div><div class="case-col-text">엑셀 파일 확인·분류·수량 집계·입력을 매일 수작업으로 처리</div></div>
+              <div class="case-col"><div class="case-col-label">AI 적용</div><div class="case-col-text">파일 업로드 → AI가 품목 분류·집계·입력 초안 자동 생성</div></div>
+              <div class="case-col"><div class="case-col-label">결과</div><div class="case-col-text">작업 시간 대폭 단축<br>오류 최소화</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="case-box" id="cs-3">
+          <button class="case-trigger" onclick="toggleCase(3)">
+            <div class="case-ci">📊</div>
+            <div class="case-info"><div class="case-title">실시간 원재료 현황 대시보드</div><div class="case-sub">엑셀 수작업 → 브라우저 자동 시각화</div></div>
+            <div class="case-arr">▾</div>
+          </button>
+          <div class="case-body" id="cs-body-3">
+            <div class="case-body-inner">
+              <div class="case-col"><div class="case-col-label">기존 업무</div><div class="case-col-text">엑셀로 현황 데이터를 수작업으로 관리, 공유가 번거로움</div></div>
+              <div class="case-col"><div class="case-col-label">AI 적용</div><div class="case-col-text">납기 상태·단가 변화율 그래프 시각화, 환율·유가 자동 반영</div></div>
+              <div class="case-col"><div class="case-col-label">결과</div><div class="case-col-text">브라우저에서 바로 열람, 데이터 입력 시 웹에서 바로 반영</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-ghost" onclick="goPanel(3)">← 이전</button>
+      <button class="btn btn-primary" onclick="showComplete()">교육 완료 ✓</button>
+    </div>
+
+  </div>
+</div>
+
+<footer>ⓒ 2026 DSR(주)</footer>
+
+<script>
+  function toggleRev(prefix, idx) {
+    const box = document.getElementById(prefix+'-'+idx);
+    const body = document.getElementById(prefix+'-body-'+idx);
+    const open = box.classList.toggle('open');
+    body.classList.toggle('open', open);
+  }
+  function toggleCase(idx) {
+    const box = document.getElementById('cs-'+idx);
+    const body = document.getElementById('cs-body-'+idx);
+    const open = box.classList.toggle('open');
+    body.classList.toggle('open', open);
+  }
+  function showComplete() {
+    alert('1단계 교육을 완료하였습니다.');
+
+    // 브라우저 정책상 사용자가 직접 연 탭은 자동으로 닫히지 않을 수 있습니다.
+    // 자동 닫기가 허용되는 환경에서는 확인을 누른 뒤 창이 닫힙니다.
+    window.open('', '_self');
+    window.close();
+  }
+  function goPanel(idx) {
+    document.querySelectorAll('.panel').forEach((p,i) => p.classList.toggle('active', i===idx));
+    document.querySelectorAll('.nav-tab').forEach((t,i) => t.classList.toggle('active', i===idx));
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+</script>
+</body>
+</html>
